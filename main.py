@@ -28,12 +28,12 @@ def encoded_message(message, n=1):
 
     list_message = list(message.text.lower())
     if list_message[0] in e_letters:
-        list_message = [e_letters[int(e_letters.index(x) + n) % len(e_letters)] if x in list_message else xfor x in list_message]
+        list_message = [e_letters[int(e_letters.index(x) + n) % len(e_letters)] if x in list_message else x for x in list_message]
     elif list_message[0] in r_letters:
-        list_message = [e_letters[int(e_letters.index(x) + n) % len(e_letters)] if x in list_message else xfor x in list_message]
+        list_message = [e_letters[int(e_letters.index(x) + n) % len(e_letters)] if x in list_message else x for x in list_message]
     
-    mesagge = list_message.split()
-    bot.reply_to(message, message.text)
+    message1 = ''.join(list_message)
+    bot.reply_to(message, message1.text)
 
 
 # Handle all other messages with content_type 'text' (content_types defaults to ['text'])
