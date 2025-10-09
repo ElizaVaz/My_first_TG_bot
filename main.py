@@ -34,16 +34,14 @@ def send_welcome(message):
 @bot.message_handler(commands=['encode'])
 def com_encode(message):
     bot.reply_to(message)
+    list_message = list(message.text.lower())
+    if list_message[0] in e_letters:
+        list_message = [e_letters[int(e_letters.index(x) + 3) % len(e_letters)] if x in list_message else x for x in list_message]
+    elif list_message[0] in r_letters:
+        list_message = [e_letters[int(e_letters.index(x) + 3) % len(e_letters)] if x in list_message else x for x in list_message]
 
-    def encoded_message(content_types=["text"]):
-        list_message = list(message.text.lower())
-        if list_message[0] in e_letters:
-            list_message = [e_letters[int(e_letters.index(x) + 3) % len(e_letters)] if x in list_message else x for x in list_message]
-        elif list_message[0] in r_letters:
-            list_message = [e_letters[int(e_letters.index(x) + 3) % len(e_letters)] if x in list_message else x for x in list_message]
-    
-        message1 = ''.join(list_message)
-        bot.reply_to(message1.text)
+    message1 = ''.join(list_message)
+    bot.reply_to(message, message1)
     
     bot.reply_to("конец зашифровки.")
 
