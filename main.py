@@ -30,20 +30,9 @@ def send_welcome(message):
 """)
 
 
-def encoded_message(message):
-    list_message = list(message.text.lower())
-    if list_message[0] in e_letters:
-        list_message = [e_letters[int(e_letters.index(x) + 3) % len(e_letters)] if x in list_message else x for x in list_message]
-    elif list_message[0] in r_letters:
-        list_message = [e_letters[int(e_letters.index(x) + 3) % len(e_letters)] if x in list_message else x for x in list_message]
-    
-    message1 = ''.join(list_message)
-    return message1
-
-
 # Handle '/encode'
-@bot.com_encode(commands=['encode'])
-def encoded_message(message):
+@bot.message_handler(commands=['encode'])
+def com_encode(message):
     bot.reply_to(message)
 
     def encoded_message(content_types=["text"]):
