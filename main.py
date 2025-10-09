@@ -13,27 +13,50 @@ e_letters = letters.e_letters
 r_letters = letters.r_letters
 
 
-# Handle '/start' and '/help'
-@bot.message_handler(commands=['help', 'start'])
+# Handle '/start'
+@bot.message_handler(commands=['start'])
 def send_welcome(message):
     bot.reply_to(message, """\
-Привет, я ЭхоБот.
-Я здесь, чтобы ответить вам тем же. Просто скажите что-нибудь приятное, и я отвечу вам тем же!\
+Привет, я ЦезарьБот.
+Я здесь, чтобы зашифровать или расшифровать ваше сообщение. Просто напишите что-нибудь и я зашифрую ваше сообщение!\
 """)
 
 
-# 
-@bot.message_handler(commands=['encode'])
-def encoded_message(message, n=1):
+# Handle '/help'
+@bot.message_handler(commands=['help'])
+def send_welcome(message):
+    bot.reply_to(message, """\
+- напиши текст и я его зашифрую;\n- напиши зашифрованный текст и его расшифрую.\
+""")
 
+
+def encoded_message(message):
     list_message = list(message.text.lower())
     if list_message[0] in e_letters:
-        list_message = [e_letters[int(e_letters.index(x) + n) % len(e_letters)] if x in list_message else x for x in list_message]
+        list_message = [e_letters[int(e_letters.index(x) + 3) % len(e_letters)] if x in list_message else x for x in list_message]
     elif list_message[0] in r_letters:
-        list_message = [e_letters[int(e_letters.index(x) + n) % len(e_letters)] if x in list_message else x for x in list_message]
+        list_message = [e_letters[int(e_letters.index(x) + 3) % len(e_letters)] if x in list_message else x for x in list_message]
     
     message1 = ''.join(list_message)
-    bot.reply_to(message, message1.text)
+    return message1
+
+
+# Handle '/encode'
+@bot.com_encode(commands=['encode'])
+def encoded_message(message):
+    bot.reply_to(message)
+
+    def encoded_message(content_types=["text"]):
+        list_message = list(message.text.lower())
+        if list_message[0] in e_letters:
+            list_message = [e_letters[int(e_letters.index(x) + 3) % len(e_letters)] if x in list_message else x for x in list_message]
+        elif list_message[0] in r_letters:
+            list_message = [e_letters[int(e_letters.index(x) + 3) % len(e_letters)] if x in list_message else x for x in list_message]
+    
+        message1 = ''.join(list_message)
+        bot.reply_to(message1.text)
+    
+    bot.reply_to("конец зашифровки.")
 
 
 # Handle all other messages with content_type 'text' (content_types defaults to ['text'])
