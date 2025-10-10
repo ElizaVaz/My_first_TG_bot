@@ -36,25 +36,29 @@ def send_welcome(message):
 def com_encode(message):
     global FLAG
     FLAG = True
-    bot.reply_to("Напишите текст, котрый вы хотите зашифровать:")
+    bot.reply_to(message,"Напишите текст, котрый вы хотите зашифровать:")
 
 
 # Handle all other messages with content_type 'text' (content_types defaults to ['text'])
 @bot.message_handler(content_types=["text"])
-def encoded_message(massage):
+def encoded_message(message):
     global FLAG
     if FLAG:
-        list_message = list(message.text.lower())
-        if list_message[0] in e_letters:
-            list_message = [e_letters[int(e_letters.index(x) + 3) % len(e_letters)] if x in list_message else x for x in list_message]
-        elif list_message[0] in r_letters:
-            list_message = [e_letters[int(e_letters.index(x) + 3) % len(e_letters)] if x in list_message else x for x in list_message]
+        list_message = list(message.text)
+        message1 = ""
+        for x in list_message:
+            if x in r_letters:
+                message1 += r_letters[int(r_letters.index(x) + 3) % (len(r_letters) - 1)]
+            else:
+                message1 += x
+            
+#       elif list_message[0] in e_letters:
+#           list_message = [e_letters[int(e_letters.index(x) + 3) % (len(e_letters) - 1)] if x in list_message else x for x in list_message]
     
-        message1 = ''.join(list_message)
-        bot.reply_to(massage, message1.text)
+        bot.reply_to(message, message1.text)
         FLAG = False
     else:
-        bot.reply_to(message, message.text)
+        bot.reply_to(message, "ДабудтДабудай, вы просто вводите текст")
 
 
 # Handle all other messages with content_type 'text' (content_types defaults to ['text'])
